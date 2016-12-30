@@ -1,0 +1,14 @@
+{
+  "name": "rpg-generators-ts",
+  "version": "0.1.0",
+  "description": "Set of generators for PnP RPGs",
+  "author": "KarbonKitty <308lapua.magnum@gmail.com",
+  "scripts": {
+    "prepare": "rm -rf output/ && mkdir output",
+    "build:js": "cd src/ts && tsc && browserify app.js -o ../../output/bundle.js && rm *.js",
+    "build:html": "cd src && cp index.html ../output",
+    "build:css": "cd src && cp -r css/ ../output",
+    "build": "npm run prepare && npm run build:html && npm run build:css && npm run build:js"
+  },
+  "license": "MIT"
+}

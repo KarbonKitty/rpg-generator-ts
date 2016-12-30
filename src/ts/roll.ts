@@ -1,0 +1,2 @@
+import dice = require('./dice');
+
