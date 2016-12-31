@@ -1,6 +1,7 @@
 import dice = require('./dice');
+import person = require('./person');
 
 let result = document.getElementById('result');
 if (result != null) {
-  result.textContent = dice.d10(true).toString();
+  result.innerHTML = new person.Person().display();
 }

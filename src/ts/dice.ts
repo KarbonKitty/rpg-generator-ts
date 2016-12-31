@@ -12,13 +12,7 @@ class Dice {
   }
 
   roll(): number {
-    let current = this.basicRoll();
-    let total = 0;
-    while (current == this.sides && this.exploding) {
-      total += current;
-      current = this.basicRoll();
-    }
-    return total;
+    return singleRoll(this.sides, this.exploding);
   }
 
   rollMultiple(times: number): number[] {
