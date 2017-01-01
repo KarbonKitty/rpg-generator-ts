@@ -5,7 +5,8 @@
   "author": "KarbonKitty <308lapua.magnum@gmail.com",
   "scripts": {
     "prepare": "rm -rf output/ && mkdir output",
-    "build:js": "cd src/ts && tsc && browserify app.js -o ../../output/bundle.js && rm *.js",
+    "build:data": "cd src/data && tsc",
+    "build:js": "cd src/ts && tsc && browserify app.js -o ../../output/bundle.js && rm *.js && rm ../data/*.js",
     "build:html": "cd src && cp index.html ../output",
     "build:css": "cd src && cp -r css/ ../output",
     "build": "npm run prepare && npm run build:html && npm run build:css && npm run build:js",
