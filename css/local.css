@@ -1,0 +1,26 @@
+body {
+  background-color: #002b36;
+  color: #839496;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link {
+  color: #859900;
+}
+
+a:visited {
+  color: #6c71c4;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #dc322f;
+}
+
+a:active {
+  text-decoration: underline;
+  color: #268bd2;
+}
