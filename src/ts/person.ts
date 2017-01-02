@@ -1,5 +1,6 @@
-import dice = require('./Dice');
+import dice = require('./dice');
 import data = require('../data/person');
+import helpers = require('./helpers')
 
 class Person {
   sex: string;
@@ -15,13 +16,19 @@ class Person {
 
   constructor(nationality: string) {
     this.sex = this.randomSex();
-    this.name = this.randomName(this.sex);
     this.age = this.randomAge();
     this.height = this.randomHeight();
+    this.name = this.randomName(this.sex);
+    this.build = helpers.randomFromWeighted(data.tables.bodyBuild);
+    this.hairColor = helpers.randomFromWeighted(data.tables.hairColor);
+    this.eyeColor = helpers.randomFromWeighted((<any>data.tables.eyeColor)[this.hairColor]);
+    this.hairStyle = helpers.randomFromWeighted(data.tables.hairStyle);
+    this.clothesStyle = helpers.randomFromWeighted((<any>data.tables.clothes)[this.sex]);
+    this.specials = this.randomSpecials();
   }
 
   randomSex() {
-    return Math.random() < 0.5 ? "male" : "female";
+    return dice.d2() == 1 ? "male" : "female";
   }
 
   randomAge() {
@@ -51,12 +58,28 @@ class Person {
     return first + " " + last;
   }
 
+  randomSpecials() {
+    const noOfSpecials = dice.d4() - 2;
+    let retArr = [];
+
+    for (let i = 0; i < noOfSpecials; i++) {
+      retArr.push(helpers.randomFromWeighted(data.tables.special));
+    }
+
+    return retArr;
+  }
+
   display() {
     return `<div>
-      <p>Name: ${this.name}</p>
+      <p><strong>Name: ${this.name}</strong></p>
       <p>Sex: ${this.sex}</p>
-      <p>Age: ${this.age}</p>
+      <p>Age: ${this.age.toFixed(0)}</p>
       <p>Height: ${this.height}</p>
+      <p>Body build: ${this.build}</p>
+      <p>Hair: ${this.hairColor} ${this.hairStyle}</p>
+      <p>Eyes: ${this.eyeColor}</p>
+      <p>Clothes: ${this.clothesStyle}</p>
+      <p>Specials: ${this.specials.join(', ')}</p>
     </div>`
   }
 }
