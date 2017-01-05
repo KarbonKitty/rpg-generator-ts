@@ -5,16 +5,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>KarbonKitty's RPG generators</title>
-  <link href="https://mincss.com/entireframework.min.css" rel="stylesheet" type="text/css" />
+  <link href="httpa://mincss.com/entireframework.min.css" rel="stylesheet" type="text/css" />
   <link href="./css/local.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-  <div class="container">
-    <h1>KarbonKitty's RPG generators</h1>
-    <h2>Random person:</h2>
-    <div id='result'></div>
-    <button id='newPerson'>Get new person</button>
+  <div class='container'>
+    <div class='row'>
+      <h1>KarbonKitty's RPG generators</h1>
+    </div>
+    <div class='row'>
+      <h2>Random person:</h2>
+      <div id='person'></div>
+      <button id='newPerson'>Get new person</button>
+    </div>
+    <div class='row'>
+      <h2>Random military unit</h2>
+      <div id='military-unit'></div>
+      <button id='newMilitaryUnit'>Get new military unit</button>
+    </div>
     <script src='./bundle.js' type='application/javascript'></script>
   </div>
 </body>
