@@ -1,16 +1,31 @@
 import dice = require('./dice');
-import person = require('./person');
+import Person = require('./person');
+import MilitaryUnit = require('./military-unit');
 
-let result = document.getElementById('result');
-if (result != null) {
-  result.innerHTML = new person.Person('english').display();
+let person = document.getElementById('person');
+if (person != null) {
+  person.innerHTML = new Person('english').display();
 }
 
 let newPersonButton = document.getElementById('newPerson');
 if (newPersonButton != null) {
   newPersonButton.onclick = () => {
-    if (result != null) {
-      result.innerHTML = new person.Person('english').display()
+    if (person != null) {
+      person.innerHTML = new Person('english').display()
+    }
+  };
+}
+
+let militaryUnit = document.getElementById('military-unit');
+if (militaryUnit != null) {
+  militaryUnit.innerHTML = new MilitaryUnit().display();
+}
+
+let newMilitaryUnitButton = document.getElementById('newMilitaryUnit');
+if (newMilitaryUnitButton != null){
+  newMilitaryUnitButton.onclick = () => {
+    if (militaryUnit != null) {
+      militaryUnit.innerHTML = new MilitaryUnit().display();
     }
   };
 }
