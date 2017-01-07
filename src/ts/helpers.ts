@@ -1,9 +1,13 @@
+interface Weighted {
+  [name: string]: number;
+}
+
 function randomFromObject(obj: any) {
   const keys = Object.keys(obj);
   return obj[keys[(Math.random() * keys.length) << 0]];
 }
 
-function randomFromWeighted(obj: any) {
+function randomFromWeighted(obj: Weighted) {
   let weight = 0;
   for (let prop in obj) {
     weight += obj[prop];
