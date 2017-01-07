@@ -71,15 +71,14 @@ class Person {
 
   display() {
     return `<div>
-      <p><strong>Name: ${this.name}</strong></p>
-      <p>Sex: ${this.sex}</p>
-      <p>Age: ${this.age.toFixed(0)}</p>
-      <p>Height: ${this.height}</p>
+      <p><strong>${this.name}</strong></p>
+      <p>${this.sex}, ${this.age.toFixed(0)} years old</p>
+      <p>Height: ${this.height} cm</p>
       <p>Body build: ${this.build}</p>
       <p>Hair: ${this.hairColor} ${this.hairStyle}</p>
       <p>Eyes: ${this.eyeColor}</p>
       <p>Clothes: ${this.clothesStyle}</p>
-      <p>Specials: ${this.specials.join(', ')}</p>
+      ${this.specials.length != 0 ? `<p>Specials: ${this.specials.join(', ')}</p>` : ''}
     </div>`
   }
 }

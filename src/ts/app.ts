@@ -3,44 +3,24 @@ import Person = require('./person');
 import MilitaryUnit = require('./military-unit');
 import Loot = require('./treasure');
 
-let person = document.getElementById('person');
-if (person != null) {
-  person.innerHTML = new Person('english').display();
-}
-
-let newPersonButton = document.getElementById('newPerson');
-if (newPersonButton != null) {
-  newPersonButton.onclick = () => {
-    if (person != null) {
-      person.innerHTML = new Person('english').display()
-    }
-  };
-}
-
-let militaryUnit = document.getElementById('military-unit');
-if (militaryUnit != null) {
-  militaryUnit.innerHTML = new MilitaryUnit().display();
-}
-
-let newMilitaryUnitButton = document.getElementById('newMilitaryUnit');
-if (newMilitaryUnitButton != null){
-  newMilitaryUnitButton.onclick = () => {
-    if (militaryUnit != null) {
-      militaryUnit.innerHTML = new MilitaryUnit().display();
-    }
-  };
-}
-
-let loot = document.getElementById('items');
-if (loot != null) {
-  loot.innerHTML = new Loot().display();
-}
-
-let lootButton = document.getElementById('newItems');
-if (lootButton != null) {
-  lootButton.onclick = () => {
-    if (loot != null) {
-      loot.innerHTML = new Loot().display();
-    }
+function safeSetInnerHTML(id: string, html: string) {
+  let el = document.getElementById(id);
+  if (el != null) {
+    el.innerHTML = html;
   }
 }
+
+safeSetInnerHTML('person', new Person('english').display());
+safeSetInnerHTML('military-unit', new MilitaryUnit().display());
+safeSetInnerHTML('items', new Loot().display());
+
+function safeAttachToClick(id: string, fun: () => void) {
+  let el = document.getElementById(id);
+  if (el != null) {
+    el.onclick = fun;
+  }
+}
+
+safeAttachToClick('newPerson', () => safeSetInnerHTML('person', new Person('english').display()));
+safeAttachToClick('newMilitaryUnit', () => safeSetInnerHTML('military-unit', new MilitaryUnit().display()));
+safeAttachToClick('newItems', () => safeSetInnerHTML('items', new Loot().display()));
