@@ -178,34 +178,74 @@ module.exports = { tables: tables, names: names };
 
 },{}],3:[function(require,module,exports){
 "use strict";
+exports.items = {
+    common: [
+        { name: "keys", p: 0.85, types: { "a few keys": 5, "house key": 3, "large key ring": 1 } },
+        { name: "glasses", p: 0.3, types: { "sunglasses": 10, "corrective glasses": 1, "contact lenses": 5 } },
+        { name: "ID", p: 0.95, types: { "driver's licence": 20, "passport": 1 } },
+        { name: "money", p: 1, types: { "handful of change": 5, "a few dollars": 10, "couple fivers": 5, "several twenties": 5, "wad of bills": 1 } },
+        { name: "phone", p: 0.9, types: { "feature phone": 3, "smartphone": 7, "top-shelf smartphone": 3 } },
+        { name: "child photos", p: 0.25, types: { "photo of a child": 5, "photos of children": 2, "photo of dog": 1 } },
+        { name: "partner photos", p: 0.4, types: { "photo of partner": 5, "photo of cat": 1 } }
+    ],
+    containers: [
+        { name: "pockets", p: 0.7, types: { "pockets": 1 }, sizes: { tiny: { min: 0, max: 2 } } },
+        { name: "purse", p: 0.4, types: { "small purse": 2, "large purse": 5 }, sizes: { tiny: { min: 2, max: 5 }, small: { min: 1, max: 4 }, little: { min: 1, max: 2 } } },
+        { name: "backpack", p: 0.2, types: { "backpack": 1 }, sizes: { tiny: { min: 0, max: 3 }, small: { min: 0, max: 2 }, little: { min: 1, max: 2 }, medium: { min: 1, max: 2 } } }
+    ],
+    uncommon: {
+        medical: {
+            tiny: { "scalpel blade": 1, "band-aid": 5, "bandage": 3, "self-adhesive bandage": 2, "small bottle of disinfectant": 2, "hypodermic needle": 1, "painkillers": 5, "allergy pills": 3, "uncommon medicine": 1, "cold medicine": 2, "stiches": 1 },
+            small: { "epipen": 1, "glucometer": 2, "large bottle of painkillers": 2, "insulin pen": 1, "bottle of disinfectant": 2, "sterile gauze": 1 },
+            little: { "elastic bandage": 5, "soft orthosis": 1, },
+            medium: { "first aid kid": 3, "blood pressure meter": 1, "sthetoscope": 1 }
+        },
+        survival: {
+            tiny: { "pocket knife": 5, "Swiss army knife": 3, "fish hook": 1, "firestarter": 1, "whistle": 1, "glowsticks": 2, "storm matches": 2 },
+            small: { "folding knife": 3, "signalling mirror": 1, "couple of candles": 2, "length of paracord": 2 },
+            little: { "hunting knife": 1, "portable radio": 1, "flashlight": 7, "roll of duct tape": 2 },
+            medium: { "length of rope": 5, "survival blanket": 1, "dehydrated food": 2 }
+        },
+        refreshments: {
+            tiny: { "piece of candy": 5, "chewing gum": 5, "ketchup packet": 1 },
+            small: { "candy bar": 5, "bag of peanuts": 5, "handful of sauce packets": 1 },
+            little: { "soda can": 5, "pretzel": 3, "sandwich": 2 },
+            medium: { "box of chocolades": 5, "water bottle": 5, "soda bottle": 3, "cinnamon bun": 3, "lunch in a box": 2 }
+        },
+        tools: {
+            tiny: { "electronic screwdriver": 2, "needle": 1 },
+            small: { "bike tools set": 1, "small wire cutters": 1, },
+            little: { "screwdriver": 3, "multitool": 3, "pliers": 2, "multimeter": 1 },
+            medium: { "hammer": 3, "electric drill": 1, "hand saw": 1, "monkey wrench": 2, "soldering iron": 1, }
+        }
+    }
+};
+
+},{}],4:[function(require,module,exports){
+"use strict";
 var Person = require("./person");
 var MilitaryUnit = require("./military-unit");
-var person = document.getElementById('person');
-if (person != null) {
-    person.innerHTML = new Person('english').display();
+var Loot = require("./treasure");
+function safeSetInnerHTML(id, html) {
+    var el = document.getElementById(id);
+    if (el != null) {
+        el.innerHTML = html;
+    }
 }
-var newPersonButton = document.getElementById('newPerson');
-if (newPersonButton != null) {
-    newPersonButton.onclick = function () {
-        if (person != null) {
-            person.innerHTML = new Person('english').display();
-        }
-    };
+safeSetInnerHTML('person', new Person('english').display());
+safeSetInnerHTML('military-unit', new MilitaryUnit().display());
+safeSetInnerHTML('items', new Loot().display());
+function safeAttachToClick(id, fun) {
+    var el = document.getElementById(id);
+    if (el != null) {
+        el.onclick = fun;
+    }
 }
-var militaryUnit = document.getElementById('military-unit');
-if (militaryUnit != null) {
-    militaryUnit.innerHTML = new MilitaryUnit().display();
-}
-var newMilitaryUnitButton = document.getElementById('newMilitaryUnit');
-if (newMilitaryUnitButton != null) {
-    newMilitaryUnitButton.onclick = function () {
-        if (militaryUnit != null) {
-            militaryUnit.innerHTML = new MilitaryUnit().display();
-        }
-    };
-}
+safeAttachToClick('newPerson', function () { return safeSetInnerHTML('person', new Person('english').display()); });
+safeAttachToClick('newMilitaryUnit', function () { return safeSetInnerHTML('military-unit', new MilitaryUnit().display()); });
+safeAttachToClick('newItems', function () { return safeSetInnerHTML('items', new Loot().display()); });
 
-},{"./military-unit":6,"./person":7}],4:[function(require,module,exports){
+},{"./military-unit":7,"./person":8,"./treasure":9}],5:[function(require,module,exports){
 "use strict";
 var Dice = (function () {
     function Dice(sides, exploding) {
@@ -273,7 +313,7 @@ function d100(exploding) {
 }
 module.exports = { Dice: Dice, singleRoll: singleRoll, d2: d2, d4: d4, d6: d6, d8: d8, d10: d10, d12: d12, d20: d20, d100: d100 };
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 function randomFromObject(obj) {
     var keys = Object.keys(obj);
@@ -297,7 +337,7 @@ function randomFromWeighted(obj) {
 }
 exports.randomFromWeighted = randomFromWeighted;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 var dice = require("./dice");
 var helpers = require("./helpers");
@@ -331,7 +371,7 @@ var MilitaryUnit = (function () {
 }());
 module.exports = MilitaryUnit;
 
-},{"../data/military-unit":1,"./dice":4,"./helpers":5}],7:[function(require,module,exports){
+},{"../data/military-unit":1,"./dice":5,"./helpers":6}],8:[function(require,module,exports){
 "use strict";
 var dice = require("./dice");
 var data = require("../data/person");
@@ -384,10 +424,58 @@ var Person = (function () {
         return retArr;
     };
     Person.prototype.display = function () {
-        return "<div>\n      <p><strong>Name: " + this.name + "</strong></p>\n      <p>Sex: " + this.sex + "</p>\n      <p>Age: " + this.age.toFixed(0) + "</p>\n      <p>Height: " + this.height + "</p>\n      <p>Body build: " + this.build + "</p>\n      <p>Hair: " + this.hairColor + " " + this.hairStyle + "</p>\n      <p>Eyes: " + this.eyeColor + "</p>\n      <p>Clothes: " + this.clothesStyle + "</p>\n      <p>Specials: " + this.specials.join(', ') + "</p>\n    </div>";
+        return "<div>\n      <p><strong>" + this.name + "</strong></p>\n      <p>" + this.sex + ", " + this.age.toFixed(0) + " years old</p>\n      <p>Height: " + this.height + " cm</p>\n      <p>Body build: " + this.build + "</p>\n      <p>Hair: " + this.hairColor + " " + this.hairStyle + "</p>\n      <p>Eyes: " + this.eyeColor + "</p>\n      <p>Clothes: " + this.clothesStyle + "</p>\n      " + (this.specials.length != 0 ? "<p>Specials: " + this.specials.join(', ') + "</p>" : '') + "\n    </div>";
     };
     return Person;
 }());
 module.exports = Person;
 
-},{"../data/person":2,"./dice":4,"./helpers":5}]},{},[3]);
+},{"../data/person":2,"./dice":5,"./helpers":6}],9:[function(require,module,exports){
+"use strict";
+var helpers = require("./helpers");
+var items = require("../data/treasure");
+function randomCommonItem(template) {
+    return helpers.randomFromWeighted(template.types);
+}
+var Loot = (function () {
+    function Loot() {
+        var _this = this;
+        this.common = [];
+        this.containers = [];
+        items.items.common.forEach(function (template) {
+            if (Math.random() < template.p) {
+                _this.common.push(randomCommonItem(template));
+            }
+        });
+        items.items.containers.forEach(function (template) {
+            if (Math.random() < template.p) {
+                var container_1 = {};
+                container_1.name = randomCommonItem(template);
+                var ss = [];
+                for (var size in template.sizes) {
+                    var n = ((Math.random() * (template.sizes[size].max - template.sizes[size].min)) << 0) + template.sizes[size].min + 1;
+                    for (var i = 0; i < n; i++) {
+                        ss.push(size);
+                    }
+                }
+                container_1.items = [];
+                ss.forEach(function (s) {
+                    var category = helpers.randomFromObject(items.items.uncommon);
+                    container_1.items.push(helpers.randomFromWeighted(category[s]));
+                });
+                _this.containers.push(container_1);
+            }
+        });
+    }
+    Loot.prototype.display = function () {
+        var itemStrings = [];
+        this.containers.forEach(function (c) {
+            itemStrings.push(c.name + ": " + c.items.join(', '));
+        });
+        return "<div>\n      <p>" + this.common.join(', ') + "</p>\n      <p>" + itemStrings.join('</p><p>') + "</p>\n    </div>";
+    };
+    return Loot;
+}());
+module.exports = Loot;
+
+},{"../data/treasure":3,"./helpers":6}]},{},[4]);
