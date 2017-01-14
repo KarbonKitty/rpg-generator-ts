@@ -16,14 +16,14 @@ function randomFromWeighted(obj: Weighted) {
   const random = Math.random() * weight;
   for (let prop in obj) {
     accumulator += obj[prop];
-    if ( accumulator > random ) {
+    if (accumulator > random) {
       return prop;
     }
   }
   return '';
 }
 
-function randomFromArray(arr: any[]) {
+function randomFromArray<T>(arr: T[]): T {
   const l = arr.length;
   const x = (Math.random() * l) << 0;
   return arr[x];

@@ -1,13 +1,21 @@
 import helpers = require('./helpers');
 import items = require('../data/treasure');
 
-function randomCommonItem(template: { types: items.WeightedOptions }) {
-  return helpers.randomFromWeighted(template.types);
+function generateCommonItem(template: items.CommonItemTemplate): string | null {
+  if (Math.random() < template.p) {
+    return helpers.randomFromWeighted(template.types);
+  } else {
+    return null
+  }
 }
 
 interface Container {
   name: string;
   items: string[];
+}
+
+interface HashMap<T> {
+  [name: string]: T;
 }
 
 class Loot {
@@ -19,26 +27,33 @@ class Loot {
     this.containers = [];
 
     items.items.common.forEach(template => {
-      if (Math.random() < template.p) {
-        this.common.push(randomCommonItem(template));
+      let item = generateCommonItem(template);
+      if (item != null) {
+        this.common.push(item);
       }
     });
 
     items.items.containers.forEach(template => {
       if (Math.random() < template.p) {
         let container: any = {};
-        container.name = randomCommonItem(template);
-        let ss = <string[]>[];
+        container.name = helpers.randomFromWeighted(template.types);
+        let objectsOfSize = <HashMap<number>>{};
         for (let size in template.sizes) {
-          const n = ((Math.random() * (template.sizes[size].max - template.sizes[size].min)) << 0) + template.sizes[size].min + 1;
-          for (let i = 0; i < n; i++) {
-            ss.push(size);
-          }
+          const s = template.sizes[size];
+          const n = ((Math.random() * (s.max - s.min)) << 0) + s.min + 1;
+          objectsOfSize[size] = n;
         }
         container.items = [];
-        (<string[]>ss).forEach(s => {
-          container.items.push(helpers.randomFromArray(items.items.uncommon.filter(i => { return i.size == s})).name);
-        });
+        for (let size in objectsOfSize) {
+          const itemsOfSize = items.items.uncommon.filter(i => { return i.size == size});
+          for (let i = 0; i < objectsOfSize[size]; i++){
+            let currentItem = helpers.randomFromArray(itemsOfSize);
+            while (Math.random() > currentItem.rarity) {
+              currentItem = helpers.randomFromArray(itemsOfSize);
+            }
+            container.items.push(currentItem.name);
+          }
+        }
         this.containers.push(container);
       }
     })

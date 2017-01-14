@@ -96,12 +96,25 @@ export let items = {
     new Item("electric drill", 0.1, "tool", "medium"),
     new Item("hand saw", 0.1, "tool", "medium"),
     new Item("monkey wrench", 0.2, "tool", "medium"),
-    new Item("soldering iron", 0.1, "tool", "medium")
+    new Item("soldering iron", 0.1, "tool", "medium"),
+    new Item("toothbrush", 0.2, "hygiene", "small"),
+    new Item("tooth paste", 0.2, "hygiene", "little"),
+    new Item("deodorant", 0.3, "hygiene", "little"),
+    new Item("soap bar", 0.2, "hygiene", "small"),
+    new Item("dental floss", 0.1, "hygiene", "tiny"),
+    new Item("tampons", 0.5, "hygiene", "little"),
+    new Item("shampoo", 0.1, "hygiene", "medium"),
+    new Item("nail clippers", 0.2, "hygiene", "tiny"),
+    new Item("dry shampoo", 0.1, "hygiene", "small"),
+    new Item("toilet paper", 0.2, "hygiene", "medium"),
+    new Item("tissues", 0.5, "hygiene", "small"),
+    new Item("wet tissues", 0.3, "hygiene", "little"),
+    new Item("pads", 0.3, "hygiene", "medium")
   ]
 }
 
 type Size = 'tiny' | 'small' | 'little' | 'medium';
-type Tag = 'medical' | 'survival' | 'refreshment' | 'tool';
+type Tag = 'medical' | 'survival' | 'refreshment' | 'tool' | 'hygiene';
 
 export interface WeightedOptions {
   [name: string]: number;
