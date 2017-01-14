@@ -37,8 +37,7 @@ class Loot {
         }
         container.items = [];
         (<string[]>ss).forEach(s => {
-          let category = <items.Category>helpers.randomFromObject(items.items.uncommon);
-          container.items.push(helpers.randomFromWeighted(category[s]));
+          container.items.push(helpers.randomFromArray(items.items.uncommon.filter(i => { return i.size == s})).name);
         });
         this.containers.push(container);
       }

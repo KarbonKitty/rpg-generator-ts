@@ -23,4 +23,10 @@ function randomFromWeighted(obj: Weighted) {
   return '';
 }
 
-export { randomFromObject, randomFromWeighted };
+function randomFromArray(arr: any[]) {
+  const l = arr.length;
+  const x = (Math.random() * l) << 0;
+  return arr[x];
+}
+
+export { randomFromObject, randomFromWeighted, randomFromArray };

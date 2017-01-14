@@ -1,3 +1,18 @@
+export class Item {
+  name: string;
+  rarity: number;
+  tags: string | string[];
+  size: Size;
+  types?: WeightedOptions;
+
+  constructor(name: string, rarity: number, tags: Tag | Tag[], size: Size, types?: WeightedOptions) {
+    this.name = name;
+    this.rarity = rarity;
+    this.tags = tags;
+    this.size = size;
+    this.types = types;
+  }
+}
 
 export let items = {
   common: <CommonItemTemplate[]>[
@@ -14,33 +29,79 @@ export let items = {
     { name: "purse", p: 0.4, types: { "small purse": 2, "large purse": 5 }, sizes: { tiny: { min: 2, max: 5 }, small: { min: 1, max: 4 }, little: { min: 1, max: 2 } } },
     { name: "backpack", p: 0.2, types: { "backpack": 1 }, sizes: { tiny: { min: 0, max: 3 }, small: { min: 0, max: 2 }, little: { min: 1, max: 2 }, medium: { min: 1, max: 2 } } }
   ],
-  uncommon: {
-    medical: <Category>{
-      tiny: { "scalpel blade": 1, "band-aid": 5, "bandage": 3, "self-adhesive bandage": 2, "small bottle of disinfectant": 2, "hypodermic needle": 1, "painkillers": 5, "allergy pills": 3, "uncommon medicine": 1, "cold medicine": 2, "stiches": 1 },
-      small: { "epipen": 1, "glucometer": 2, "large bottle of painkillers": 2, "insulin pen": 1, "bottle of disinfectant": 2, "sterile gauze": 1 },
-      little: { "elastic bandage": 5, "soft orthosis": 1,  },
-      medium: { "first aid kid": 3, "blood pressure meter": 1, "sthetoscope": 1 }
-    },
-    survival: <Category>{
-      tiny: { "pocket knife": 5, "Swiss army knife": 3, "fish hook": 1, "firestarter": 1, "whistle": 1, "glowsticks": 2, "storm matches": 2 },
-      small: { "folding knife": 3, "signalling mirror": 1, "couple of candles": 2, "length of paracord": 2 },
-      little: { "hunting knife": 1, "portable radio": 1, "flashlight": 7, "roll of duct tape": 2 },
-      medium: { "length of rope": 5, "survival blanket": 1, "dehydrated food": 2 }
-    },
-    refreshments: <Category>{
-      tiny: { "piece of candy": 5, "chewing gum": 5, "ketchup packet": 1 },
-      small: { "candy bar": 5, "bag of peanuts": 5, "handful of sauce packets": 1 },
-      little: { "soda can": 5, "pretzel": 3, "sandwich": 2 },
-      medium: { "box of chocolades": 5, "water bottle": 5, "soda bottle": 3, "cinnamon bun": 3, "lunch in a box": 2 }
-    },
-    tools: <Category>{
-      tiny: { "electronic screwdriver": 2, "needle": 1 },
-      small: { "bike tools set": 1, "small wire cutters": 1, },
-      little: { "screwdriver": 3, "multitool": 3, "pliers": 2, "multimeter": 1 },
-      medium: { "hammer": 3, "electric drill": 1, "hand saw": 1, "monkey wrench": 2, "soldering iron": 1, }
-    }
-  }
+  uncommon: <Item[]>[
+    new Item("scalpel blade", 0.1, "medical", "tiny"),
+    new Item("band-aid", 0.5, "medical", "tiny"),
+    new Item("bandage", 0.3, "medical", "tiny"),
+    new Item("self-adhesive bandage", 0.2, "medical", "tiny"),
+    new Item("small bottle of disinfectant", 0.2, "medical", "tiny"),
+    new Item("hypodermic needle", 0.1, "medical", "tiny"),
+    new Item("painkillers", 0.5, "medical", "tiny"),
+    new Item("allergy pills", 0.3, "medical", "tiny"),
+    new Item("uncommon medicine", 0.1, "medical", "tiny"),
+    new Item("cold medcinie", 0.2, "medical", "tiny"),
+    new Item("stiches", 0.1, "medical", "tiny"),
+    new Item("glucometer", 0.2, "medical", "small"),
+    new Item("epipen", 0.1, "medical", "small"),
+    new Item("large bottle of painkillers", 0.2, "medical", "small"),
+    new Item("insulin pen", 0.1, "medical", "small"),
+    new Item("bottle of disinfectant", 0.2, "medical", "small"),
+    new Item("sterile gauze", 0.1, "medical", "small"),
+    new Item("elastic bandage", 0.5, "medical", "little"),
+    new Item("soft orthosis", 0.1, "medical", "little"),
+    new Item("first aid kit", 0.3, "medical", "medium"),
+    new Item("blood pressure meter", 0.1, "medical", "medium"),
+    new Item("sthetoscope", 0.1, "medical", "medium"),
+    new Item("pocket knife", 0.5, "survival", "tiny"),
+    new Item("Swiss army knife", 0.3, "survival", "tiny"),
+    new Item("fish hook", 0.1, "survival", "tiny"),
+    new Item("firestarter", 0.1, "survival", "tiny"),
+    new Item("whistle", 0.1, "survival", "tiny"),
+    new Item("glowsticks", 0.2, "survival", "tiny"),
+    new Item("storm matches", 0.2, "survival", "tiny"),
+    new Item("folding knife", 0.3, "survival", "small"),
+    new Item("signalling mirror", 0.1, "survival", "small"),
+    new Item("candle", 0.2, "survival", "small"),
+    new Item("paracord", 0.2, "survival", "small"),
+    new Item("hunting knife", 0.1, "survival", "little"),
+    new Item("portable radio", 0.1, "survival", "little"),
+    new Item("flashlight", 0.7, "survival", "little"),
+    new Item("roll of duct tape", 0.2, "survival", "little"),
+    new Item("rope", 0.5, "survival", "medium"),
+    new Item("survival blanket", 0.1, "survival", "medium"),
+    new Item("dehydrated food", 0.2, "survival", "medium"),
+    new Item("piece of candy", 0.5, "refreshment", "tiny"),
+    new Item("chewing gum", 0.5, "refreshment", "tiny"),
+    new Item("ketchup packet", 0.1, "refreshment", "tiny"),
+    new Item("candy bar", 0.5, "refreshment", "small"),
+    new Item("bag of peanuts", 0.5, "refreshment", "small"),
+    new Item("sauce packets", 0.1, "refreshment", "small"),
+    new Item("soda can", 0.5, "refreshment", "little"),
+    new Item("pretzel", 0.3, "refreshment", "little"),
+    new Item("sandwich", 0.2, "refreshment", "little"),
+    new Item("box of chocolades", 0.5, "refreshment", "medium"),
+    new Item("water bottle", 0.5, "refreshment", "medium"),
+    new Item("soda bottle", 0.3, "refreshment", "medium"),
+    new Item("cinnamon bun", 0.3, "refreshment", "medium"),
+    new Item("lunch in a box", 0.2, "refreshment", "medium"),
+    new Item("electronic screwdriver", 0.2, "tool", "tiny"),
+    new Item("needle", 0.1, "tool", "tiny"),
+    new Item("bike tools set", 0.1, "tool", "small"),
+    new Item("small wire cutters", 0.1, "tool", "tiny"),
+    new Item("screwdriver", 0.3, "tool", "little"),
+    new Item("multitool", 0.3, "tool", "little"),
+    new Item("pliers", 0.2, "tool", "little"),
+    new Item("multimeter", 0.1, "tool", "little"),
+    new Item("hammer", 0.3, "tool", "medium"),
+    new Item("electric drill", 0.1, "tool", "medium"),
+    new Item("hand saw", 0.1, "tool", "medium"),
+    new Item("monkey wrench", 0.2, "tool", "medium"),
+    new Item("soldering iron", 0.1, "tool", "medium")
+  ]
 }
+
+type Size = 'tiny' | 'small' | 'little' | 'medium';
+type Tag = 'medical' | 'survival' | 'refreshment' | 'tool';
 
 export interface WeightedOptions {
   [name: string]: number;
@@ -60,12 +121,6 @@ export interface Container extends CommonItemTemplate {
   sizes: {
     [name: string]: MinMax
   }
-}
-
-export interface ItemTemplate {
-  name: string,
-  w: number,
-  types: WeightedOptions
 }
 
 export interface MinMax {
