@@ -9,6 +9,15 @@ function generateCommonItem(template: items.CommonItemTemplate): string | null {
   }
 }
 
+function selectRandomItem(maxSize: number): items.Item {
+  let smallItems = items.items.uncommon.filter(i => i.size <= maxSize );
+  let currentItem = helpers.randomFromArray(smallItems);
+  while (Math.random() > currentItem.rarity) {
+    currentItem = helpers.randomFromArray(smallItems);
+  }
+  return currentItem;
+}
+
 interface Container {
   name: string;
   items: string[];
@@ -37,26 +46,20 @@ class Loot {
       if (Math.random() < template.p) {
         let container: any = {};
         container.name = helpers.randomFromWeighted(template.types);
-        let objectsOfSize = <HashMap<number>>{};
-        for (let size in template.sizes) {
-          const s = template.sizes[size];
-          const n = ((Math.random() * (s.max - s.min)) << 0) + s.min + 1;
-          objectsOfSize[size] = n;
-        }
         container.items = [];
-        for (let size in objectsOfSize) {
-          const itemsOfSize = items.items.uncommon.filter(i => { return i.size == size});
-          for (let i = 0; i < objectsOfSize[size]; i++){
-            let currentItem = helpers.randomFromArray(itemsOfSize);
-            while (Math.random() > currentItem.rarity) {
-              currentItem = helpers.randomFromArray(itemsOfSize);
-            }
-            container.items.push(currentItem.name);
+        let currentCapacity = template.capacity;
+        while (currentCapacity > 0) {
+          if (Math.random() > (currentCapacity / container.capacity)) {
+            break;
+          } else {
+            let item = selectRandomItem(currentCapacity);
+            container.items.push(item.name);
+            currentCapacity -= item.size;
           }
         }
         this.containers.push(container);
       }
-    })
+    });
   }
 
   display() {
