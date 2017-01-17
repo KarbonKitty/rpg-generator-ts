@@ -4,10 +4,12 @@ const small = 2;
 const little = 4;
 const medium = 8;
 
+type Tag = 'medical' | 'survival' | 'refreshment' | 'tool' | 'hygiene';
+
 export class Item {
   name: string;
   rarity: number;
-  tags: string | string[];
+  tags: Tag | Tag[];
   size: Size;
   types?: WeightedOptions;
 
@@ -27,8 +29,8 @@ export let items = {
     { name: "ID", p: 0.95, types: { "driver's licence": 20, "passport": 1 } },
     { name: "money", p: 1, types: { "handful of change": 5, "a few dollars": 10, "couple fivers": 5, "several twenties": 5, "wad of bills": 1 } },
     { name: "phone", p: 0.9, types: { "feature phone": 3, "smartphone": 7, "top-shelf smartphone": 3 } },
-    { name: "child photos", p: 0.25, types: { "photo of a child": 5, "photos of children": 2, "photo of dog": 1 } },
-    { name: "partner photos", p: 0.4, types: { "photo of partner": 5, "photo of cat": 1 } }
+    { name: "child photos", p: 0.25, types: { "photo of a child": 5, "photos of children": 2, "photo of a dog": 1 } },
+    { name: "partner photos", p: 0.4, types: { "photo of partner": 5, "photo of a cat": 1 } }
   ],
   containers: <Container[]>[
     { name: "pockets", p: 0.7, types: { "pockets": 1 }, capacity: 2 },
@@ -119,8 +121,6 @@ export let items = {
   ]
 }
 
-type Tag = 'medical' | 'survival' | 'refreshment' | 'tool' | 'hygiene';
-
 export interface WeightedOptions {
   [name: string]: number;
 }
@@ -131,15 +131,6 @@ export interface CommonItemTemplate {
   types: WeightedOptions
 }
 
-export interface Category {
-  [name: string]: WeightedOptions
-}
-
 export interface Container extends CommonItemTemplate {
   capacity: number;
-}
-
-export interface MinMax {
-  min: number,
-  max: number
 }
