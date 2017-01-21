@@ -10,7 +10,7 @@ function generateCommonItem(template: items.CommonItemTemplate): string | null {
 }
 
 function selectRandomItem(maxSize: number): items.Item {
-  let smallItems = items.items.uncommon.filter(i => i.size <= maxSize );
+  let smallItems = items.items.uncommon.filter(i => i.size <= maxSize);
   let currentItem = helpers.randomFromArray(smallItems);
   while (Math.random() > currentItem.rarity) {
     currentItem = helpers.randomFromArray(smallItems);
@@ -53,7 +53,11 @@ class Loot {
             break;
           } else {
             let item = selectRandomItem(currentCapacity);
-            container.items.push(item.name);
+            if (item.types != undefined) {
+              container.items.push(helpers.randomFromWeighted(item.types));
+            } else {
+              container.items.push(item.name);
+            }
             currentCapacity -= item.size;
           }
         }
